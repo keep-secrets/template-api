@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const container = require('./container');
 const express = require('express');
-const {gracefulStopper} = require('./infrastructure/gracefulStopper');
+const gracefulStopper = require('./infrastructure/gracefulStopper');
 
 const app = express();
 
@@ -16,12 +16,12 @@ signals.map(signal => process.on(signal, () => {
 
 const internalRoutes = require('./infrastructure/http/internal-controller');
 
+app.use('/internal', internalRoutes);
 
 app.use('/', (req,res) => {
   res.status(200).json({response: 'OK', secretOrNot});
 });
 
-app.use('/internal', internalRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

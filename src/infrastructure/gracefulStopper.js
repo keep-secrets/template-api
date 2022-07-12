@@ -8,4 +8,4 @@ function gracefultStopper() {
 
 }
 
-module.exports = {gracefultStopper}
+module.exports = gracefultStopper;
