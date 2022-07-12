@@ -17,9 +17,20 @@ const run = {
   }
 }
 
+const test = {
+  server: {
+    port: 3000
+  },
+  mongo:{
+    mongoConnectionUri: null,
+    mongoTimeout: 1,
+    dbName: 'NOT EXISTS'
+  },
+}
 
 const config = {
-  run
+  run,
+  test
 }
 
 module.exports = config[env]
