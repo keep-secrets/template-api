@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "dev": "NODE_ENV=run nodemon -L --inspect=0.0.0.0 index.js",
-    "test": "NODE_ENV=test jest --passWithNoTests --maxWorkers=1"
+    "test": "NODE_ENV=test jest --passWithNoTests --maxWorkers=1",
+    "pretest": "eslint .",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",

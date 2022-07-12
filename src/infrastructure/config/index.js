@@ -17,23 +17,9 @@ const run = {
   }
 }
 
-const test = {
-  server: {
-    port: 3000
-  },
-  mongo:{
-    mongoConnectionUri: null,
-    mongoTimeout: 1,
-    dbName: 'NOT EXISTS'
-  },
-  keepsecrets:{
-    signature: process.env.JWT_KEY || 'MySuperSecret',
-  }
-}
 
 const config = {
-  run,
-  test
+  run
 }
 
 module.exports = config[env]

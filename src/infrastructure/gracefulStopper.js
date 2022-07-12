@@ -1,13 +1,11 @@
 const container = require('../container');
-const signals = ['SIGTERM', 'SIGINT'];
-
-function registerGracefulStopper() {
+function gracefultStopper() {
+    console.log('SIGNAL RECEIVED. STOPPING')
     const dbHandler = container.resolve('mongoDbHandler');
-    signals.map(signal => process.on(signal, () => {
-        dbHandler.disconnect();
-        process.exit();
-    }));
+    dbHandler.disconnect();
+    console.log('SIGNAL PROCESSED. STOPPED')
+    process.exit(0);
 
 }
 
-module.exports = {registerGracefulStopper}
+module.exports = {gracefultStopper}

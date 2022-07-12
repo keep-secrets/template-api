@@ -2,27 +2,26 @@ require('dotenv').config();
 
 const container = require('./container');
 const express = require('express');
-const gracefulStopper = require('./infrastructure/gracefulStopper');
-gracefulStopper.registerGracefulStopper();
+const {gracefulStopper} = require('./infrastructure/gracefulStopper');
+
 const app = express();
 
 const port = process.env.PORT || 3000;
 const secretOrNot = process.env.SECRET || 'NotASecret';
 
+const signals = ['SIGTERM', 'SIGINT', 'SIGUSR1', 'SIGUSR2'];
+signals.map(signal => process.on(signal, () => {
+  gracefulStopper();
+}));
+
+const internalRoutes = require('./infrastructure/http/internal-controller');
+
 
 app.use('/', (req,res) => {
   res.status(200).json({response: 'OK', secretOrNot});
-})
-
-app.get('/internal/liveness', (req, res) => {
-  res.status(200).json({response: "I'm alive"});
 });
 
-app.get('/internal/readyness', (req, res) => {
-  const dbHandler = container.resolve('mongoDbHandler');
-  if (dbHandler.getInstance()) return res.status(200).json({response: "I'm ready"});
-  return res.status(500).json({response: "Not ready"});
-});
+app.use('/internal', internalRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

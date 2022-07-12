@@ -2,4 +2,4 @@
 Template for apis
 
 # Things ToDo
-In db handler check ToDo and set correct collection
+- In db handler (Line: 25) check ToDo and set correct collection from the database
