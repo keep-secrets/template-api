@@ -7,10 +7,18 @@ router.get('/liveness', (req, res) => {
     return res.status(200).json({response: "I'm alive"});
 });
 
-router.get('/readyness', (req, res) => {
+router.get('/readiness', (req, res) => {
+    let ready = true;
     const dbHandler = container.resolve('mongoDbHandler');
-    if (dbHandler.getInstance()) return res.status(200).json({response: "I'm ready"});
-    return res.status(500).json({response: "Not ready"});
+    const services = [dbHandler.getInstance()];
+    services.forEach((service) => {
+        if (!service) {
+            ready = false
+        }
+    });
+    if (!ready) return res.status(500).json({response: "Not ready"});
+    return res.status(200).json({response: "I'm ready"});
+
 });
 
 module.exports = router;
