@@ -17,7 +17,10 @@ router.get('/readiness', async (req, res) => {
                 ready = false
             }
         });
-        if (!ready) return res.status(500).json({response: "Not ready"});
+        if (!ready) {
+            return res.status(500).json({response: "Not ready"});
+        }
+        
         return res.status(200).json({response: "I'm ready"});
     } catch (err) {
         console.error(err);
